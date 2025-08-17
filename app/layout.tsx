@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import './globals.css';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'PDF to Structured Data (CSV/Excel)',
@@ -9,13 +12,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="en">
-      <head>
-        {/* Google Analytics - IDは環境変数で管理することを推奨 */}
+      <body className={inter.className}>
+        {children}
+        {/* Google Analytics */}
         <script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-R6RQGVVBRF"
@@ -30,8 +34,7 @@ export default function RootLayout({
             `,
           }}
         />
-      </head>
-      <body>{children}</body>
+      </body>
     </html>
   );
 }
