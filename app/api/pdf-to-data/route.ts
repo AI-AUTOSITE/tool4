@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
-import pdf from 'pdf-parse';
 
-// OpenAI APIクライアントの初期化
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -27,7 +25,9 @@ export async function POST(request: NextRequest) {
     // PDFからテキストを抽出
     let extractedText = '';
     try {
-      const data = await pdf(buffer);
+      // pdf-parseを動的インポート（ビルドエラー回避）
+      const pdf = await import('pdf-parse');
+      const data = await pdf.default(buffer);
       extractedText = data.text;
     } catch (pdfError) {
       console.error('PDF parsing error:', pdfError);
